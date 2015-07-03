@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSString+Additions.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // insert code here...
-        NSLog(@"Hello, World!");
+        NSString *str = @"aeious";
+        [str stringByPigLatinization];
     }
     return 0;
 }
