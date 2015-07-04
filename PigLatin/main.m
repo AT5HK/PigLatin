@@ -12,8 +12,10 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // insert code here...
-        NSString *str = @"aeious";
-        [str stringByPigLatinization];
+        NSString *str = @"Luke Skywalker";
+        
+        
+        NSLog(@"%@",[str stringByPigLatinization]);
     }
     return 0;
 }

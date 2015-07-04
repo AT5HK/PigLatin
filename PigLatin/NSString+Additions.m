@@ -10,21 +10,53 @@
 
 @implementation NSString (Additions)
 
+-(NSArray*)getLetters{
+    NSMutableArray *characters = [[NSMutableArray alloc] initWithCapacity:self.length];
+    for (int i=0; i < self.length; i++) {
+        NSString *ichar  = [NSString stringWithFormat:@"%c", [self characterAtIndex:i]];
+        [characters addObject:ichar];
+    }
+    return characters;
+}
 
 -(NSString*)stringByPigLatinization{
-    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"a, e, i, o, u, y"];
-    NSMutableArray *holder = [NSMutableArray array];
-    
-    if ([self.lowercaseString rangeOfCharacterFromSet:set].length) {
-        NSMutableArray *arrayStr = [[self componentsSeparatedByString:@" "]mutableCopy];
-        for (NSString *character in arrayStr) {
-            if ([character rangeOfCharacterFromSet:set].length) {
-                [arrayStr removeObject:character];
+    NSMutableArray *words = [[self componentsSeparatedByString:@" "]mutableCopy];
+    for (int i =0; i < words.count; i++) {
+        NSString *word = words[i];
+        NSArray *letters = [word getLetters];
+        int count = 0;
+        for (NSString *letter in letters) {
+            if ([@"aeiou" rangeOfString:letter].location == NSNotFound) {
+                count++;
             }
-            break;
+            else{
+                break;
+            }
+        }
+        NSString *firstConsonants = [word substringToIndex:count];
+        word = [word substringFromIndex:count];
+        word = [word stringByAppendingString:firstConsonants];
+        word = [word stringByAppendingString:@"ay"];
+        
+        words[i] = word;
+    }
+    
+    
+    return [NSString stringFromArray:words];
+}
+
++ (NSString *)stringFromArray:(NSArray *)words {
+    NSString *temp = @"";
+    
+    for (NSString *word in words) {
+        if ([words.firstObject isEqualToString:word]) {
+            temp = [temp stringByAppendingString:word];
+        } else {
+            temp = [temp stringByAppendingFormat:@" %@", word];
         }
     }
-    return self;
+    
+    return temp;
 }
 
 @end
